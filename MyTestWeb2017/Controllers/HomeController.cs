@@ -10,8 +10,10 @@ using System.Web;
 using System.Web.Mvc;
 using MyTest2017;
 using System.IO.Compression;
+using MyTestWeb2017.Business.HpaReviewFeed;
 using MyTestWeb2017.framework;
 using MyTestWeb2017.Models;
+using MyTestWeb2017.Models.HpaReviewFeed;
 using MyTestWeb2017.Models.RequestModels;
 using MyTestWeb2017.Service;
 
@@ -176,9 +178,60 @@ namespace MyTestWeb2017.Controllers
         [HttpPost]
         public string DealReviewFeed(HttpFileCollectionBase files)
         {
-            
+            string result = string.Empty;
+            if (files != null && files.Count > 0)
+            {
+                var englishFile = new EnglishFeedFile();
+                for (var i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+                    if (file != null && file.FileName.Contains("english"))
+                    {
+                        ExcelTemplateHelper<HotelFeedModel> exHelper = new ExcelTemplateHelper<HotelFeedModel>(file, englishFile.FeedXmlProcess);
+                        exHelper.Run();
+                    }
 
-            return null;
+                }
+
+                for (var i = 0;i<files.Count;i++)
+                {
+                    HttpPostedFileBase file = files[i];
+
+                    if (file != null && file.FileName.Contains("image"))
+                    {
+                        var imageFile = new ImageDeco(englishFile.GetReviewList(), "", "", "");
+                        var imageDeco = new ExcelTemplateHelper<ImageModel>(file, imageFile.FeedXmlProcess);
+                        imageDeco.Run();
+                    }
+
+
+                    if (file != null && file.FileName.Contains("review"))
+                    {
+                        var reviewFile = new ReviewDeco(englishFile.GetReviewList(), "", "", "");
+                        var reviewDeco = new ExcelTemplateHelper<ReviewModel>(file, reviewFile.FeedXmlProcess);
+                        reviewDeco.Run();
+                    }
+
+                    if (file != null && file.FileName.Contains("name"))
+                    {
+                        var nameFile = new NameDeco(englishFile.GetReviewList(), "", "", "");
+                        var nameDeco = new ExcelTemplateHelper<NameModel>(file, nameFile.FeedXmlProcess);
+                        nameDeco.Run();
+                    }
+
+                    if (file != null && file.FileName.Contains("desc"))
+                    {
+                        var descFile = new DescDeco(englishFile.GetReviewList(), "", "", "");
+                        var descDeco = new ExcelTemplateHelper<DescModel>(file, descFile.FeedXmlProcess);
+                        descDeco.Run();
+                    }
+                }
+
+                var list = englishFile.GetReviewList().ListModel.Select(l => l.HasName || l.HasReview).ToList();
+                result = Serializer.Serialize(list);
+            }
+
+            return result;
         }
 
 

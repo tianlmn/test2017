@@ -27,8 +27,6 @@ namespace MyTestWeb2017.Models
         public string address_postcode { get; set; }
 
         public string phone { get; set; }
-
-
     }
 
 
@@ -102,7 +100,7 @@ namespace MyTestWeb2017.Models
     public class HotelNameType
     {
         [XmlAttribute("language")]
-        public string Language = "ja";
+        public string Language;
 
         [XmlText]
         public string Value { get; set; }
