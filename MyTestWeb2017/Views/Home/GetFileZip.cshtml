@@ -1,0 +1,49 @@
+﻿@model  dynamic
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>xml转zip</title>
+</head>
+<body>
+<div>
+    <div>
+        <span>feed：excel转xml</span>
+        @using (Html.BeginForm("Upload", "home", FormMethod.Post, new {enctype = "multipart/form-data"}))
+        {
+            <input type="file" name="FileUpload"/>
+            <input type="submit" name="Submit" id="Submit" value="Upload"/>
+            <input type="hidden" name="UploadType" value="feedexcel">
+        }
+    </div>
+    <div>
+        <span>querycontrol：xml转excel</span>
+        @using (Html.BeginForm("Upload", "home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="FileUpload" />
+            <input type="submit" name="Submit" id="SubmitXml" value="Upload" />
+            <input type="hidden" name="UploadType" value="qcxml">
+        }
+    </div>
+    <div>
+        <span>localfeed：xml转excel</span>
+        @using (Html.BeginForm("Upload", "home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="FileUpload" />
+            <input type="submit" name="Submit" id="SubmitXml2" value="Upload" />
+            <input type="hidden" name="UploadType" value="feedxml">
+        }
+    </div>
+    <div>
+        <span>reviewfeed：zip转xml</span>
+        @using (Html.BeginForm("Upload", "home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="FileUpload" multiple />
+            <input type="submit" name="Submit" id="SubmitXml2" value="Upload" />
+            <input type="hidden" name="UploadType" value="reviewfeed">
+        }
+    </div>
+</div>
+</body>
+</html>
