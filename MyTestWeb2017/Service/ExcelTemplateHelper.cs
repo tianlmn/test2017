@@ -145,7 +145,7 @@ namespace MyTestWeb2017.Service
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             continue;
                         }
@@ -174,10 +174,7 @@ namespace MyTestWeb2017.Service
 
         public void Dispose()
         {
-            if (_workbook != null)
-            {
-                _workbook.Close();
-            }
+            _workbook?.Close();
         }
     }
 }

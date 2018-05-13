@@ -9,7 +9,8 @@ namespace MyTestWeb2017.framework
     {
         public static int ToInt(this string s)
         {
-            int.TryParse(s, out var i);
+            int i;
+            int.TryParse(s, out  i);
             return i;
         }
 

@@ -7,8 +7,8 @@ namespace MyTestWeb2017.Models.HpaReviewFeed
 {
     public class DescModel
     {
-        public int hotelid { get; set; }
+        public int HotelID { get; set; }
 
-        public string desc { get; set; }
+        public string HotelDescription { get; set; }
     }
 }

@@ -27,26 +27,26 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
         {
             foreach (var d in nameList)
             {
-                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.hotelid);
+                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.HotelId);
                 if (node == null) continue;
 
                 node.HasName = true;
-                if (!string.IsNullOrWhiteSpace(d.hotelname))
+                if (!string.IsNullOrWhiteSpace(d.HotelName))
                 {
                     node.HotelName = new Models.HotelNameType()
                     {
                         Language = Language,
-                        Value = d.hotelname
+                        Value = d.HotelName
                     };
                 }
 
                 if (node.Addresscn == null)
                     node.Addresscn = new Models.AddressType();
 
-                if (!string.IsNullOrWhiteSpace(d.address))
+                if (!string.IsNullOrWhiteSpace(d.Address))
                 {
                     var address = node.Addresscn.Component.FirstOrDefault(ad => ad.Name == "addr1");
-                    if (address != null) address.Value = d.address;
+                    if (address != null) address.Value = d.Address;
                 }
 
                 if (!string.IsNullOrWhiteSpace(d.cityname))

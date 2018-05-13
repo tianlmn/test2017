@@ -162,16 +162,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\HpaReviewFeed\DescDeco.cs" />
     <Compile Include="Business\HpaReviewFeed\EnglishFeedFile.cs" />
     <Compile Include="Business\HpaReviewFeed\FileDeco.cs" />
     <Compile Include="Business\HpaReviewFeed\ImageDeco.cs" />
     <Compile Include="Business\HpaReviewFeed\IReviewFeedBase.cs" />
+    <Compile Include="Business\HpaReviewFeed\NameDeco.cs" />
+    <Compile Include="Business\HpaReviewFeed\ReviewDeco.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
+    <Compile Include="framework\ExtendHelper.cs" />
     <Compile Include="framework\JsonHelper.cs" />
     <Compile Include="framework\RequestHelper.cs" />
     <Compile Include="Models\ChineseFeedZipModel.cs" />
     <Compile Include="Models\HpaReviewFeed\DescModel.cs" />
     <Compile Include="Models\HpaReviewFeed\ImageModel.cs" />
+    <Compile Include="Models\HpaReviewFeed\NameModel.cs" />
     <Compile Include="Models\HpaReviewFeed\ReviewModel.cs" />
     <Compile Include="Models\MultiReviewModel.cs" />
     <Compile Include="Models\RequestModels\BaseRequestModel.cs" />

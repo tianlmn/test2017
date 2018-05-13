@@ -27,7 +27,7 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
         {
             foreach (var d in descList)
             {
-                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.hotelid);
+                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.HotelID);
                 if (node == null) continue;
                 if (node.Content == null)
                 {
@@ -37,7 +37,7 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
                 node.Content.Text = new TextType()
                 {
                     Link = $"https://{HostPre}.trip.com/hotels/detail?language={Language}&locale={Locale}&hotelid={node.Ctriphotelid}&allianceid=15214&sid=10000",
-                    Body = d.desc
+                    Body = d.HotelDescription
                 };
             }
         }
