@@ -90,7 +90,7 @@ namespace MyTestWeb2017.Models
         public string Format = "simple";
 
         [XmlAttribute("language")]
-        public string Language = "ja";
+        public string Language = "en";
 
         [XmlElement("component")]
         public List<Component> Component { get; set; }
@@ -100,7 +100,7 @@ namespace MyTestWeb2017.Models
     public class HotelNameType
     {
         [XmlAttribute("language")]
-        public string Language;
+        public string Language = "en";
 
         [XmlText]
         public string Value { get; set; }

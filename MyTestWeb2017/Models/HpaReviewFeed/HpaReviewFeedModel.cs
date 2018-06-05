@@ -22,15 +22,17 @@ namespace MyTestWeb2017.Models.HpaReviewFeed
         [XmlElement("content", Order = 9)]
         public ContentType Content { get; set; }
 
+        [XmlIgnore]
         public bool HasReview { get; set; }
 
+        [XmlIgnore]
         public bool HasName { get; set; }
     }
 
     [XmlType]
     public class ContentType
     {
-        [XmlElement("component")]
+        [XmlElement("text")]
         public TextType Text { get; set; }
 
         [XmlElement("review")]
@@ -105,15 +107,11 @@ namespace MyTestWeb2017.Models.HpaReviewFeed
         [XmlAttribute("url")]
         public string Url { get; set; }
 
-        [XmlElement("link", Order = 1)]
-        public string Link { get; set; }
 
-        [XmlElement("title", Order = 2)]
+        [XmlElement("title", Order = 1)]
         public string Title { get; set; }
-        
+
+        [XmlElement("link", Order = 2)]
+        public string Link { get; set; }
     }
-
-
-
-
 }

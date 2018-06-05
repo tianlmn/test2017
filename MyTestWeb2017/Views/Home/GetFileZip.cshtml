@@ -41,7 +41,9 @@
         {
             <input type="file" name="FileUpload" multiple />
             <input type="submit" name="Submit" id="SubmitXml2" value="Upload" />
-            <input type="hidden" name="UploadType" value="reviewfeed">
+            <input type="hidden" name="UploadType" value="reviewfeed" />
+            @Html.Label("Lang:") <input type="text"  name="Lang" />
+            @Html.Label("Host:") <input type="text" name="Host" />
         }
     </div>
 </div>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Web;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -17,7 +19,7 @@ namespace MyTestWeb2017.Service
         where T : new()
     {
         //excel文件类
-        private readonly IWorkbook _workbook = null;
+        private IWorkbook _workbook = null;
 
         //处理的sheet开始项
         private readonly int _sheetstart;
@@ -175,6 +177,9 @@ namespace MyTestWeb2017.Service
         public void Dispose()
         {
             _workbook?.Close();
+            _workbook = null;
+            GC.Collect();
+            Thread.Sleep(500);
         }
     }
 }

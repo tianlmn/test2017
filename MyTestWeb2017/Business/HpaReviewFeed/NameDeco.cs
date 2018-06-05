@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using MyTestWeb2017.framework;
+using MyTestWeb2017.Models;
 using MyTestWeb2017.Models.HpaReviewFeed;
 
 namespace MyTestWeb2017.Business.HpaReviewFeed
@@ -9,39 +12,36 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
     public class NameDeco : FileDeco<NameModel>
     {
 
-        public NameDeco(ReviewListingsType reviewFeedBase, string hostPre, string lang, string locale)
+        public NameDeco(EnglishFeedFile reviewFeedBase, string hostPre, string lang) : base(reviewFeedBase, hostPre, lang)
         {
-            ReviewFeed = reviewFeedBase;
-            HostPre = hostPre;
-            Language = lang;
-            Locale = locale;
-
         }
 
         public override ReviewListingsType GetReviewList()
         {
-            return ReviewFeed;
+            return ReviewFeed.GetReviewList();
         }
 
         public override void FeedXmlProcess(IList<NameModel> nameList)
         {
+            var watch = new Stopwatch();
+            watch.Start();
+
             foreach (var d in nameList)
             {
-                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.HotelId);
-                if (node == null) continue;
+                //var node = ReviewFeed.GetReviewList().ListModel.FirstOrDefault(r => r.Ctriphotelid == d.HotelId);
+                //if (node == null) continue;
+
+                var index = ReviewFeed.SortHotelList.BinarySearchIndex(d.HotelId);
+                if (index == -1) continue;
+                var node = ReviewFeed.GetReviewList().ListModel[index];
 
                 node.HasName = true;
                 if (!string.IsNullOrWhiteSpace(d.HotelName))
                 {
-                    node.HotelName = new Models.HotelNameType()
-                    {
-                        Language = Language,
-                        Value = d.HotelName
-                    };
+                    node.HotelName.Language = Language;
+                    node.HotelName.Value = d.HotelName;
                 }
 
-                if (node.Addresscn == null)
-                    node.Addresscn = new Models.AddressType();
 
                 if (!string.IsNullOrWhiteSpace(d.Address))
                 {
@@ -60,9 +60,10 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
                     var province = node.Addresscn.Component.FirstOrDefault(ad => ad.Name == "province");
                     if (province != null) province.Value = d.provincename;
                 }
-
-
             }
+
+            watch.Stop();
+            var st = watch.ElapsedMilliseconds;
         }
     }
 }

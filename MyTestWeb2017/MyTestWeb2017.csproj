@@ -169,6 +169,7 @@
     <Compile Include="Business\HpaReviewFeed\IReviewFeedBase.cs" />
     <Compile Include="Business\HpaReviewFeed\NameDeco.cs" />
     <Compile Include="Business\HpaReviewFeed\ReviewDeco.cs" />
+    <Compile Include="Business\HpaReviewFeed\DescTxtDeco.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
     <Compile Include="framework\ExtendHelper.cs" />
     <Compile Include="framework\JsonHelper.cs" />
@@ -198,6 +199,8 @@
     <Compile Include="Service\HomeService.cs" />
     <Compile Include="Models\HpaReviewFeed\HpaReviewFeedModel.cs" />
     <Compile Include="Service\ISerializer.cs" />
+    <Compile Include="Service\TxtTemplateHelper.cs" />
+    <Compile Include="Service\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

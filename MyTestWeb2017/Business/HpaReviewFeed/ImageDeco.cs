@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using MyTestWeb2017.framework;
 using MyTestWeb2017.Models;
 using MyTestWeb2017.Models.HpaReviewFeed;
 
@@ -10,26 +12,29 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
     public class ImageDeco: FileDeco<ImageModel>
     {
 
-        public ImageDeco(ReviewListingsType reviewFeedBase,string hostPre, string lang, string locale)
+        public ImageDeco(EnglishFeedFile reviewFeedBase, string hostPre, string lang) : base(reviewFeedBase, hostPre, lang)
         {
-            ReviewFeed = reviewFeedBase;
-            HostPre = hostPre;
-            Language = lang;
-            Locale = locale;
+            Link = $"https://{hostPre}.trip.com/hotels/detail?hotelid=(PARTNER-HOTEL-ID)&language={lang}&checkin=(CHECKINYEAR)-(CHECKINMONTH)-(CHECKINDAY)&checkout=(CHECKOUTYEAR)-(CHECKOUTMONTH)-(CHECKOUTDAY)&curr=(USER-CURRENCY)&Allianceid=15214&Sid=1394410&ouid=(CHECKINDAY)_(CHECKINMONTH)_(CHECKINYEAR)_(LENGTH)_(GOOGLE-SITE)_(PARTNER-HOTEL-ID)_(USER-COUNTRY)_(USER-DEVICE)_(DATE-TYPE)&utm_medium=cpc&utm_campaign=HPA&utm_source=google&utm_content=(CHECKINDAY)_(CHECKINMONTH)_(CHECKINYEAR)_(LENGTH)_(GOOGLE-SITE)_(PARTNER-HOTEL-ID)_(USER-COUNTRY)_(USER-DEVICE)_(DATE-TYPE)";
 
         }
 
         public override ReviewListingsType GetReviewList()
         {
-            return ReviewFeed;
+            return ReviewFeed.GetReviewList();
         }
 
         public override void FeedXmlProcess(IList<ImageModel> imageList)
         {
-            foreach (var d in imageList)
+            var watch = new Stopwatch();
+            watch.Start();
+            for (var i = 0; i < imageList.Count; i++)
             {
-                var node = ReviewFeed.ListModel.FirstOrDefault(r => r.Ctriphotelid == d.hotelid);
-                if (node == null) continue;
+                //var node = ReviewFeed.GetReviewList().ListModel.Find(r => r.Ctriphotelid == imageList[i].hotelid);
+
+                var index = ReviewFeed.SortHotelList.BinarySearchIndex(imageList[i].hotelid);
+                if (index == -1 || string.IsNullOrWhiteSpace(imageList[i].URL)) continue;
+                var node = ReviewFeed.GetReviewList().ListModel[index];
+
                 if (node.Content == null)
                 {
                     node.Content = new ContentType();
@@ -42,11 +47,14 @@ namespace MyTestWeb2017.Business.HpaReviewFeed
 
                 node.Content.ImageList.Add(new ImageType()
                 {
-                    Url = d.URL,
-                    Link = $"https://{HostPre}.trip.com/hotels/detail?language={Language}&locale={Locale}&hotelid={node.Ctriphotelid}&allianceid=15214&sid=10000",
-                    Title = d.typename
+                    Url = imageList[i].URL,
+                    Link = Link,
+                    Title = imageList[i].typename
                 });
             }
+
+            watch.Stop();
+            var st = watch.ElapsedMilliseconds;
         }
 
     }
